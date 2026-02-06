@@ -1,2 +1,3 @@
 // Controls component exports
-export { };
+export { OperationsPanel } from "./OperationsPanel";
+export { InfoPanel } from "./InfoPanel";

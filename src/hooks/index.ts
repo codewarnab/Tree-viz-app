@@ -1,2 +1,3 @@
 // Custom hooks exports
-export { };
+export { BSTAnimationProvider } from "./useBSTAnimation";
+export { useBSTAnimation } from "./useBSTAnimationHook";

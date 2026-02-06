@@ -1,2 +1,2 @@
 // Tree component exports
-export { };
+export { TreeCanvas } from "./TreeCanvas";

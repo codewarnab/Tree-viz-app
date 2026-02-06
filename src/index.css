@@ -1,1 +1,55 @@
+
+/* Import Silkscreen from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen&family=PT+Sans:wght@400;700&display=swap');
 @import "tailwindcss";
+
+@theme {
+  /* Dark background colors */
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #1a1a2e;
+  --color-bg-tertiary: #16213e;
+  --color-bg-canvas: #e0e0e0;
+
+  /* Border colors */
+  --color-border-primary: #2a2a2a;
+  --color-border-secondary: #444444;
+  --color-border-accent: #198754;
+
+  /* Text colors */
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #adb5bd;
+  --color-text-muted: #6c757d;
+
+  /* Brand / accent colors matching VisualGo */
+  --color-accent-orange: #ff8a27;
+  --color-accent-green: #198754;
+  --color-accent-blue: #0d6efd;
+  --color-accent-cyan: #0dcaf0;
+  --color-accent-red: #dc3545;
+  --color-accent-yellow: #ffc107;
+  --color-accent-teal: #20c997;
+
+  /* Fonts */
+  --font-mono: "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+  --font-silkscreen: "Silkscreen", monospace, sans-serif;
+  --font-body: "PT Sans", system-ui, -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", "Arial", sans-serif;
+}
+
+/* Global styles */
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-bg-primary);
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+  overflow: hidden;
+}
+
+/* Dot grid pattern for canvas */
+.canvas-dots {
+  background-color: var(--color-bg-canvas);
+}
