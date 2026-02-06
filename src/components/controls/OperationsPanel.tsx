@@ -14,7 +14,7 @@ const PANEL_COLORS = [
     "#9370DB", // medium purple
 ];
 
-const INITIAL_BG_COLOR = PANEL_COLORS[Math.floor(Math.random() * PANEL_COLORS.length)];
+const INITIAL_BG_COLOR = PANEL_COLORS[Math.floor(Math.random() * PANEL_COLORS.length)]!;
 
 type OperationKey =
     | "toggle"

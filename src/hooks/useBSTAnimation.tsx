@@ -1,5 +1,4 @@
 import {
-    createContext,
     useState,
     useCallback,
     useRef,
@@ -18,39 +17,7 @@ import {
     generateMinSteps,
     generateMaxSteps,
 } from "../utils/bst";
-
-/* ── Types ─────────────────────────────────────────────────────────── */
-
-type SearchMode = "exact" | "lower_bound" | "min" | "max";
-
-interface BSTAnimationState {
-    /* Tree data */
-    tree: BSTNode | null;
-
-    /* Animation playback */
-    isAnimating: boolean;
-    /** Nodes visited so far (dimmed highlight) */
-    visitedNodes: number[];
-    /** The node currently being compared (bright highlight) */
-    activeNode: number | null;
-    /** The final result node (green highlight when done) */
-    foundNode: number | null;
-
-    /* Info panel content */
-    infoPanelOpen: boolean;
-    statusText: string;
-    codeLines: string[];
-    highlightIndex: number;
-    operationLabel: string;
-
-    /* Operations panel */
-    operationsPanelOpen: boolean;
-
-    /* Actions */
-    startSearch: (value: number, mode: SearchMode) => void;
-    setOperationsPanelOpen: (open: boolean) => void;
-    setInfoPanelOpen: (open: boolean) => void;
-}
+import { BSTAnimationContext, type SearchMode, type BSTAnimationState } from "./BSTAnimationContext";
 
 /* ── Default / idle values ─────────────────────────────────────────── */
 

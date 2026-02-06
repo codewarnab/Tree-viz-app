@@ -16,7 +16,7 @@ const PANEL_PALETTES = [
 
 // Module-level random pick — evaluated once per page load / refresh
 const initialPalette =
-    PANEL_PALETTES[Math.floor(Math.random() * PANEL_PALETTES.length)];
+    PANEL_PALETTES[Math.floor(Math.random() * PANEL_PALETTES.length)]!;
 
 /* ── spring config for width animation ── */
 const WIDTH_SPRING = { type: "spring" as const, stiffness: 300, damping: 30 };
