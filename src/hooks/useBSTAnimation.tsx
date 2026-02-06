@@ -58,9 +58,6 @@ const IDLE_STATUS = "";
 const IDLE_CODE: string[] = [];
 const IDLE_HIGHLIGHT = -1;
 
-/* ── Context ───────────────────────────────────────────────────────── */
-
-export const BSTAnimationContext = createContext<BSTAnimationState | null>(null);
 
 /* ── Provider ──────────────────────────────────────────────────────── */
 
@@ -216,4 +213,3 @@ export function BSTAnimationProvider({ children }: { children: ReactNode }) {
     );
 }
 
-export type { BSTAnimationState };

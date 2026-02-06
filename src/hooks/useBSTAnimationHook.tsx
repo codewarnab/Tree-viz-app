@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { BSTAnimationContext, type BSTAnimationState } from "./useBSTAnimation";
+import { BSTAnimationContext, type BSTAnimationState } from "./BSTAnimationContext";
 
 /* ── Hook ──────────────────────────────────────────────────────────── */
 
