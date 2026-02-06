@@ -12,10 +12,13 @@ import {
     SEARCH_CODE,
     LOWER_BOUND_CODE,
     MIN_MAX_CODE,
+    REMOVE_CODE,
     generateExactSearchSteps,
     generateLowerBoundSteps,
     generateMinSteps,
     generateMaxSteps,
+    generateRemoveSteps,
+    bstRemove,
 } from "../utils/bst";
 import { BSTAnimationContext, type SearchMode, type BSTAnimationState } from "./BSTAnimationContext";
 
@@ -59,7 +62,7 @@ export function BSTAnimationProvider({ children }: { children: ReactNode }) {
     /* ── Core: play search steps ─────────────────────────────────────── */
 
     const playSteps = useCallback(
-        (steps: SearchStep[], stepDelay: number) => {
+        (steps: SearchStep[], stepDelay: number, onComplete?: () => void) => {
             clearTimers();
             setIsAnimating(true);
             setVisitedNodes([]);
@@ -87,6 +90,7 @@ export function BSTAnimationProvider({ children }: { children: ReactNode }) {
                         const doneTimer = setTimeout(() => {
                             setIsAnimating(false);
                             setActiveNode(null);
+                            onComplete?.();
                         }, stepDelay);
                         timerRef.current.push(doneTimer);
                     }
@@ -154,6 +158,36 @@ export function BSTAnimationProvider({ children }: { children: ReactNode }) {
         [tree, clearTimers, playSteps],
     );
 
+    /* ── startRemove action ─────────────────────────────────────────── */
+
+    const startRemove = useCallback(
+        (value: number) => {
+            clearTimers();
+            setFoundNode(null);
+            setVisitedNodes([]);
+
+            const steps = generateRemoveSteps(tree, value);
+            if (steps.length === 0) return;
+
+            setCodeLines(REMOVE_CODE);
+            setOperationLabel(`Remove(${value})`);
+            setOperationsPanelOpen(false);
+            setInfoPanelOpen(true);
+
+            const kickoff = setTimeout(() => {
+                playSteps(steps, 1000, () => {
+                    /* After animation completes, actually mutate the tree */
+                    const lastStep = steps[steps.length - 1];
+                    if (lastStep?.result === "found") {
+                        setTree((prev) => bstRemove(prev, value));
+                    }
+                });
+            }, 350);
+            timerRef.current.push(kickoff);
+        },
+        [tree, clearTimers, playSteps],
+    );
+
     /* ── Context value ── */
 
     const value: BSTAnimationState = {
@@ -169,6 +203,7 @@ export function BSTAnimationProvider({ children }: { children: ReactNode }) {
         operationLabel,
         operationsPanelOpen,
         startSearch,
+        startRemove,
         setTree,
         setOperationsPanelOpen,
         setInfoPanelOpen,

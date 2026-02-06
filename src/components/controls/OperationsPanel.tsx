@@ -181,6 +181,33 @@ function ValueInputSubMenu({ label = "v", color }: { label?: string; color: stri
     );
 }
 
+function RemoveSubMenu({ color, onRemove }: { color: string; onRemove: (value: number) => void }) {
+    const [val, setVal] = useState("");
+    const btnStyle = { backgroundColor: color, color: "#000" };
+    return (
+        <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-bold whitespace-nowrap text-black">v =</span>
+            <input
+                className={inputClass}
+                style={inputStyle}
+                value={val}
+                onChange={(e) => setVal(e.target.value)}
+                placeholder=""
+            />
+            <button
+                className={actionBtnClass}
+                style={btnStyle}
+                onClick={() => {
+                    const n = Number(val);
+                    if (!Number.isNaN(n) && val.trim() !== "") onRemove(n);
+                }}
+            >
+                Go
+            </button>
+        </div>
+    );
+}
+
 function PredSuccSubMenu({ color }: { color: string }) {
     const [val, setVal] = useState("");
     const btnStyle = { backgroundColor: color, color: "#000" };
@@ -214,10 +241,12 @@ function SubMenuContent({
     opKey,
     color,
     onSearch,
+    onRemove,
 }: {
     opKey: OperationKey;
     color: string;
     onSearch: (value: number, mode: "exact" | "lower_bound" | "min" | "max") => void;
+    onRemove: (value: number) => void;
 }) {
     switch (opKey) {
         case "create":
@@ -225,8 +254,9 @@ function SubMenuContent({
         case "search":
             return <SearchSubMenu color={color} onSearch={onSearch} />;
         case "insert":
-        case "remove":
             return <ValueInputSubMenu label="v" color={color} />;
+        case "remove":
+            return <RemoveSubMenu color={color} onRemove={onRemove} />;
         case "select":
             return <ValueInputSubMenu label="k" color={color} />;
         case "predsucc":
@@ -243,6 +273,7 @@ export function OperationsPanel() {
         operationsPanelOpen: isOpen,
         setOperationsPanelOpen: setIsOpen,
         startSearch,
+        startRemove,
         isAnimating,
     } = useBSTAnimation();
     const [activeOp, setActiveOp] = useState<OperationKey | null>(null);
@@ -254,6 +285,12 @@ export function OperationsPanel() {
         if (isAnimating) return; // don't start a new search while one is running
         setActiveOp(null); // close sub-menu
         startSearch(value, mode);
+    };
+
+    const handleRemove = (value: number) => {
+        if (isAnimating) return;
+        setActiveOp(null);
+        startRemove(value);
     };
 
     return (
@@ -328,6 +365,7 @@ export function OperationsPanel() {
                                                         opKey={op.key}
                                                         color={bgColor}
                                                         onSearch={handleSearch}
+                                                        onRemove={handleRemove}
                                                     />
                                                 </div>
                                             </motion.div>
