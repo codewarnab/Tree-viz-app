@@ -30,7 +30,7 @@ const IDLE_HIGHLIGHT = -1;
 
 export function BSTAnimationProvider({ children }: { children: ReactNode }) {
     /* ── Tree ── */
-    const [tree] = useState<BSTNode | null>(() => buildBST(SAMPLE_BST_VALUES));
+    const [tree, setTree] = useState<BSTNode | null>(() => buildBST(SAMPLE_BST_VALUES));
 
     /* ── Panel visibility ── */
     const [infoPanelOpen, setInfoPanelOpen] = useState(false);
@@ -169,6 +169,7 @@ export function BSTAnimationProvider({ children }: { children: ReactNode }) {
         operationLabel,
         operationsPanelOpen,
         startSearch,
+        setTree,
         setOperationsPanelOpen,
         setInfoPanelOpen,
     };

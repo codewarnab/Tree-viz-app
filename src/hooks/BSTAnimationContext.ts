@@ -30,6 +30,7 @@ export interface BSTAnimationState {
 
     /* Actions */
     startSearch: (value: number, mode: SearchMode) => void;
+    setTree: (tree: BSTNode | null) => void;
     setOperationsPanelOpen: (open: boolean) => void;
     setInfoPanelOpen: (open: boolean) => void;
 }

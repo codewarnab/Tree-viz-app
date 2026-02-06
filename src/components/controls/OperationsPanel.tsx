@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft } from "lucide-react";
 import { useBSTAnimation } from "../../hooks";
+import { bstInsert as bstInsertUtil } from "../../utils/bst";
 
 const PANEL_COLORS = [
     "#32CD32", // lime green
@@ -48,11 +49,49 @@ const inputStyle = { backgroundColor: "#000" };
 /* ── Sub-menu renderers ────────────────────────────────────────────── */
 
 function CreateSubMenu({ color }: { color: string }) {
+    const { setTree } = useBSTAnimation();
     const [n, setN] = useState("18");
     const btnStyle = { backgroundColor: color, color: "#000" };
+
+    const handleEmpty = () => {
+        setTree(null);
+    };
+
+    const handleRandom = () => {
+        const count = Math.max(0, Math.min(Number(n) || 0, 200));
+        const values = new Set<number>();
+        while (values.size < count) {
+            values.add(Math.floor(Math.random() * 999) + 1);
+        }
+        let root: import("../../utils/bst").BSTNode | null = null;
+        for (const v of values) {
+            root = bstInsertUtil(root, v);
+        }
+        setTree(root);
+    };
+
+    const handleSkewed = () => {
+        const count = Math.max(0, Math.min(Number(n) || 0, 200));
+        if (count === 0) { setTree(null); return; }
+        const goLeft = Math.random() < 0.5;
+        const values: number[] = [];
+        if (goLeft) {
+            // decreasing values → all-left skew
+            for (let i = count; i >= 1; i--) values.push(i);
+        } else {
+            // increasing values → all-right skew
+            for (let i = 1; i <= count; i++) values.push(i);
+        }
+        let root: import("../../utils/bst").BSTNode | null = null;
+        for (const v of values) {
+            root = bstInsertUtil(root, v);
+        }
+        setTree(root);
+    };
+
     return (
         <div className="flex items-center gap-1.5">
-            <button className={actionBtnClass} style={btnStyle}>Empty</button>
+            <button className={actionBtnClass} style={btnStyle} onClick={handleEmpty}>Empty</button>
             <button className={actionBtnClass} style={btnStyle}>Examples</button>
             <span className="text-[11px] font-bold whitespace-nowrap text-black">N =</span>
             <input
@@ -61,8 +100,8 @@ function CreateSubMenu({ color }: { color: string }) {
                 value={n}
                 onChange={(e) => setN(e.target.value)}
             />
-            <button className={actionBtnClass} style={btnStyle}>Random</button>
-            <button className={actionBtnClass} style={btnStyle}>Skewed</button>
+            <button className={actionBtnClass} style={btnStyle} onClick={handleRandom}>Random</button>
+            <button className={actionBtnClass} style={btnStyle} onClick={handleSkewed}>Skewed</button>
         </div>
     );
 }
